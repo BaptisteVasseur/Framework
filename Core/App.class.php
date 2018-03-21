@@ -278,7 +278,7 @@ class App
      */
 
     public static function renderController($callable, $datas = []){
-        return self::getInstance()->getController()->render($callable, $datas);
+        return self::getInstance()->getController()->renderController($callable, $datas);
     }
 
     public static function render($template, $params = []){
