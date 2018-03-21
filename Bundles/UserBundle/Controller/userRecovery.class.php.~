@@ -1,0 +1,14 @@
+<?php
+
+namespace Bundles\UserBundle\Controller;
+
+use Core\Controller\Controller;
+use Core\Form\Form;
+use Core\Form\Validation;
+use App;
+use Core\Email\Email;
+use Bundles\UserBundle\Entity\UsersEntity;
+
+class UserController extends Controller {
+
+}

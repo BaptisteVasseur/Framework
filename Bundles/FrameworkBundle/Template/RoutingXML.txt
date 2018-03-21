@@ -1,0 +1,16 @@
+<routes>
+
+    <!--
+
+    <route name="__ROUTE_NAME__">
+        <url>__ROUTE_URL__</url>
+        <controller>__ROUTE_CONTROLLER__</controller>
+        <action>__ROUTE_ACTION__</action>
+        <params>
+            <__PARAM_NAME__>__PARAM_VALUE__</__PARAM_NAME__>
+        </params>
+    </route>
+
+    -->
+
+</routes>

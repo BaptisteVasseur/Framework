@@ -1,0 +1,9 @@
+<routes>
+
+    <route name="test_route">
+        <url>/home</url>
+        <controller>FILE:</controller>
+        <action>test.php</action>
+    </route>
+
+</routes>

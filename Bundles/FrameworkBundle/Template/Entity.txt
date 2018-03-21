@@ -1,0 +1,31 @@
+<?php
+
+namespace Bundles\%%BUNDLE_NAME%%\Entity;
+
+use Core\Collection\OneToManyCollection;
+use Core\Collection\OneToOneCollection;
+use \Core\Entity\Entity;
+
+class %%ENTITY_NAME%% extends Entity {
+
+
+    /**
+     * @Type identifier
+     */
+    protected $id;
+
+    %%INSERT_PROPERTY_HERE%%
+
+    public function __construct()
+    {
+        %%INSERT_CONSTRUCTOR_HERE%%
+    }
+
+    /*
+     * Getters and Setters
+     */
+
+    public function getId() { return $this->id; }
+
+    %%INSERT_METHOD_HERE%%
+}

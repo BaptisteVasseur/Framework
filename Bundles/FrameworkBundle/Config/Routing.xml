@@ -1,0 +1,185 @@
+<routes>
+
+    <route name="framework_admin_dashboard_route">
+        <url>/framework/admin</url>
+        <controller>FrameworkBundle/FrameworkController</controller>
+        <action>indexAction</action>
+    </route>
+
+    <!-- Bundles -->
+    <route name="framework_admin_bundle_route">
+        <url>/framework/admin/bundle</url>
+        <controller>FrameworkBundle/FrameworkController</controller>
+        <action>bundleListAction</action>
+    </route>
+    <route name="framework_admin_form_bundle_route">
+        <url>/framework/admin/form/bundle</url>
+        <controller>FrameworkBundle/FrameworkFormController</controller>
+        <action>bundleFormAction</action>
+    </route>
+    <route name="framework_admin_form_bundle_remove_route">
+        <url>/framework/admin/form/bundle/remove/{:bundleName}</url>
+        <controller>FrameworkBundle/FrameworkFormController</controller>
+        <action>bundleRemoveAction</action>
+        <params>
+            <bundleName>(.+)</bundleName>
+        </params>
+    </route>
+
+    <!-- Controllers -->
+    <route name="framework_admin_controller_route">
+        <url>/framework/admin/controller</url>
+        <controller>FrameworkBundle/FrameworkController</controller>
+        <action>controllerListAction</action>
+    </route>
+    <route name="framework_admin_form_controller_route">
+        <url>/framework/admin/form/controller</url>
+        <controller>FrameworkBundle/FrameworkFormController</controller>
+        <action>controllerFormAction</action>
+    </route>
+    <route name="framework_admin_form_controller_remove_route">
+        <url>/framework/admin/form/controller/remove/{:bundleName}/{:controllerName}</url>
+        <controller>FrameworkBundle/FrameworkFormController</controller>
+        <action>controllerRemoveAction</action>
+        <params>
+            <bundleName>(.+)</bundleName>
+            <controllerName>(.+)</controllerName>
+        </params>
+    </route>
+
+    <!-- Actions -->
+    <route name="framework_admin_form_action_route">
+        <url>/framework/admin/form/action</url>
+        <controller>FrameworkBundle/FrameworkFormController</controller>
+        <action>actionFormAction</action>
+    </route>
+
+
+    <!-- Entités -->
+    <route name="framework_admin_entity_route">
+        <url>/framework/admin/entity</url>
+        <controller>FrameworkBundle/FrameworkController</controller>
+        <action>entityListAction</action>
+    </route>
+    <route name="framework_admin_form_entity_route">
+        <url>/framework/admin/form/entity</url>
+        <controller>FrameworkBundle/FrameworkFormController</controller>
+        <action>entityFormAction</action>
+    </route>
+    <route name="framework_admin_form_entity_remove_route">
+        <url>/framework/admin/form/entity/remove/{:bundleName}/{:entityName}</url>
+        <controller>FrameworkBundle/FrameworkFormController</controller>
+        <action>entityRemoveAction</action>
+        <params>
+            <bundleName>(.+)</bundleName>
+            <entityName>(.+)</entityName>
+        </params>
+    </route>
+
+    <!-- Formulaires -->
+    <route name="framework_admin_form_route">
+        <url>/framework/admin/form</url>
+        <controller>FrameworkBundle/FrameworkController</controller>
+        <action>formListAction</action>
+    </route>
+    <route name="framework_admin_form_form_route">
+        <url>/framework/admin/form/form</url>
+        <controller>FrameworkBundle/FrameworkFormController</controller>
+        <action>formFormAction</action>
+    </route>
+
+    <!-- Configuration -->
+    <route name="framework_admin_config_route">
+        <url>/framework/admin/config</url>
+        <controller>FrameworkBundle/FrameworkController</controller>
+        <action>configListAction</action>
+    </route>
+    <route name="framework_admin_form_config_route">
+        <url>/framework/admin/form/config</url>
+        <controller>FrameworkBundle/FrameworkFormController</controller>
+        <action>configFormAction</action>
+    </route>
+
+    <!-- Routes -->
+    <route name="framework_admin_route_route">
+        <url>/framework/admin/route</url>
+        <controller>FrameworkBundle/FrameworkController</controller>
+        <action>routeListAction</action>
+    </route>
+    <route name="framework_admin_form_route_route">
+        <url>/framework/admin/form/route</url>
+        <controller>FrameworkBundle/FrameworkFormController</controller>
+        <action>routeFormAction</action>
+    </route>
+
+    <!-- Autres -->
+    <route name="framework_admin_form_route_getBundleList_route">
+        <url>/framework/admin/form/route/list/bundles</url>
+        <controller>FrameworkBundle/FrameworkController</controller>
+        <action>getBundleListAction</action>
+    </route>
+    <route name="framework_admin_form_route_getControllerList_route">
+        <url>/framework/admin/form/route/list/controllers</url>
+        <controller>FrameworkBundle/FrameworkController</controller>
+        <action>getControllerListAction</action>
+    </route>
+    <route name="framework_admin_form_route_getEntityList_route">
+        <url>/framework/admin/form/route/list/entity</url>
+        <controller>FrameworkBundle/FrameworkController</controller>
+        <action>getEntityListAction</action>
+    </route>
+    <route name="framework_admin_form_route_getActionList_route">
+        <url>/framework/admin/form/route/list/actions</url>
+        <controller>FrameworkBundle/FrameworkController</controller>
+        <action>getActionListAction</action>
+    </route>
+
+    <!-- Database pages -->
+    <route name="framework_admin_database_route">
+        <url>/framework/admin/database</url>
+        <controller>FrameworkBundle/FrameworkController</controller>
+        <action>databaseAction</action>
+    </route>
+    <route name="framework_admin_database_dump_route">
+        <url>/framework/admin/database/dump</url>
+        <controller>FrameworkBundle/FrameworkController</controller>
+        <action>databaseDumpAction</action>
+    </route>
+    <route name="framework_admin_database_update_route">
+        <url>/framework/admin/database/update</url>
+        <controller>FrameworkBundle/FrameworkController</controller>
+        <action>databaseUpdateAction</action>
+    </route><route name="framework_admin_database_reset_route">
+    <url>/framework/admin/database/reset</url>
+    <controller>FrameworkBundle/FrameworkController</controller>
+    <action>databaseResetAction</action>
+</route>
+    <route name="framework_admin_database_showModal_route">
+        <url>/framework/admin/database?show</url>
+        <controller>FrameworkBundle/FrameworkController</controller>
+        <action>databaseAction</action>
+    </route>
+    <route name="framework_admin_database_getUpdateQueries_route">
+        <url>/framework/admin/database/update/queries</url>
+        <controller>FrameworkBundle/FrameworkController</controller>
+        <action>getDatabaseUpdateQueriesAction</action>
+    </route>
+
+    <!-- Database form -->
+    <route name="framework_admin_form_testConnection_database_route">
+        <url>/framework/admin/form/database/test</url>
+        <controller>FrameworkBundle/FrameworkFormController</controller>
+        <action>databaseTestConnectionAction</action>
+    </route>
+    <route name="framework_admin_form_create_database_route">
+        <url>/framework/admin/form/database/create</url>
+        <controller>FrameworkBundle/FrameworkFormController</controller>
+        <action>databaseCreateDatabaseAction</action>
+    </route>
+    <route name="framework_admin_form_saveConfig_database_route">
+        <url>/framework/admin/form/database/save</url>
+        <controller>FrameworkBundle/FrameworkFormController</controller>
+        <action>databaseSaveConfigDatabaseAction</action>
+    </route>
+
+</routes>

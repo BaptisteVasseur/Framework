@@ -1,0 +1,9 @@
+<translations>
+
+    <!--
+
+    <__TRANSLATION_ALIAS__>__TRANSLATION_VALUE__</__TRANSLATION_ALIAS__>
+
+    -->
+
+</translations>

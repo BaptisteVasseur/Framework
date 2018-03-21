@@ -1,0 +1,25 @@
+<?php
+
+namespace Bundles\%%BUNDLE_NAME%%;
+
+use Core\Bundle\Bundle;
+
+Class %%BUNDLE_NAME%% extends Bundle {
+
+    public function getBundleName(){
+        return "%%BUNDLE_NAME%%";
+    }
+
+    public function getAuthor(){
+        return "%%BUNDLE_AUTHOR%%";
+    }
+
+    public function getLink(){
+        return "%%BUNDLE_LINK%%";
+    }
+
+    public function getCreationDate(){
+        return "%%BUNDLE_DATE%%";
+    }
+
+}

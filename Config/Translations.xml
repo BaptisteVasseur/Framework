@@ -1,0 +1,38 @@
+<translations>
+
+    <core>
+        <route>
+            <noRoutefound>Aucune route trouvée !</noRoutefound>
+        </route>
+
+        <fileManager>
+            <noFileFound>Impossible de trouver le fichier correspondant à</noFileFound>
+        </fileManager>
+
+        <upload>
+            <ErrorDuringTransfert>Erreur lors du transfert</ErrorDuringTransfert>
+            <ErrorTooBig>Le fichier est trop gros</ErrorTooBig>
+            <ErrorExtension>Erreur lors de l'upload, extension invalide ou non supportées !</ErrorExtension>
+            <ErrorFileUpload>Erreur pendant l\'upload</ErrorFileUpload>
+            <FileSaved>Fichier(s) enregistré(s)</FileSaved>
+        </upload>
+
+        <validation>
+            <IsEqualError>Les deux valeurs ne correspondent pas !</IsEqualError>
+        </validation>
+
+        <model>
+            <entitySaved>Les données ont bien été ajoutées !</entitySaved>
+            <entitySavedError>Impossible d'ajouter l'élément à la BDD !</entitySavedError>
+            <entityUpdated>Les données ont bien été modiés !</entityUpdated>
+            <entityUpdatedError>Impossible de modifié l'élément !</entityUpdatedError>
+            <entityDeleteSuccess>Les données ont bien été supprimées !</entityDeleteSuccess>
+            <entityDeleteError>Impossible de supprimer l'élément !</entityDeleteError>
+        </model>
+
+        <test>
+            <error>Bonjour %s, comment allez-vous %s ?</error>
+        </test>
+    </core>
+
+</translations>

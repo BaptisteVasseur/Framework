@@ -1,0 +1,14 @@
+<routes>
+
+
+    <route name="azerty_123">
+        <url>/test/{:id}/{:nom}</url>
+        <controller>FrameworkBundle/FrameworkController</controller>
+        <action>indexAction</action>
+        <params>
+            <id>([0-9]+)</id>
+            <nom>([a-zA-Z]+)</nom>
+        </params>
+    </route>
+
+</routes>

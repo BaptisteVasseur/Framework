@@ -1,0 +1,52 @@
+<security>
+
+    <!-- Security -->
+
+    <role>
+        ROLE_SUPER_ADMIN
+        > [ROLE_ADMIN_RH, ROLE_ADMIN_COMMERCE, ROLE_ADMIN_AE, ROLE_ADMIN_EVENT]
+    </role>
+
+    <role>
+        ROLE_ADMIN_RH
+        > [ROLE_ADMIN_AE, ROLE_ADMIN_EVENT, ROLE_ADMIN_COMMERCE]
+    </role>
+
+    <role>
+        ROLE_ADMIN_COMMERCE
+        > [ROLE_CLIENT]
+    </role>
+
+    <role>
+        ROLE_ADMIN_AE
+        > [ROLE_AE]
+    </role>
+
+    <role>
+        ROLE_ADMIN_EVENT
+        > [ROLE_EVENT_PROMO, ROLE_EVENT_EVENT]
+    </role>
+
+    <role>
+        ROLE_AE
+        > [ROLE_USER]
+    </role>
+
+    <role>
+        ROLE_EVENT_PROMO
+        > [ROLE_USER]
+    </role>
+
+    <role>
+        ROLE_EVENT_EVENT
+        > [ROLE_USER]
+    </role>
+
+    <role>
+        ROLE_CLIENT
+        > [ROLE_USER]
+    </role>
+
+    <base>ROLE_USER</base>
+
+</security>

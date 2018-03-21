@@ -1,0 +1,9 @@
+<?php
+
+namespace Bundles\%%BUNDLE_NAME%%\Controller;
+
+use Core\Controller\Controller;
+
+Class %%CONTROLLER_NAME%% extends Controller {
+
+}
