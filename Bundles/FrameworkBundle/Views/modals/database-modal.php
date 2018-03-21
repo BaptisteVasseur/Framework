@@ -29,7 +29,7 @@
                         <div class="form-group col-md-12">
                             <label for="inputDBName">Nom de la base de données</label>
                             <?php $defaultDBName = "bdd_" . rand(100000000, 999999999); ?>
-                            <input class="form-control" id="inputDBName" name="inputDBName" placeholder="Par défaut : <?= $defaultDBName ?>" data-default="<?= $defaultDBName ?>" value="<?= $dbDBname ?>">
+                            <input class="form-control" id="inputDBName" name="inputDBName" placeholder="Par défaut : <?= $defaultDBName ?>" data-default="<?= $defaultDBName ?>" value="<?= $dbName ?>">
                         </div>
                     </div>
                 </div>
