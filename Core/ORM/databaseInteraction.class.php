@@ -316,7 +316,7 @@ class databaseInteraction {
      * Compare le script de la base de données (enregister dans un fichier) avec le script générer par rapport aux entités et renvoie false si les versions ne correspondent pas.
      */
     public function compareDatabaseScript() {
-        $fileContent = file_get_contents(ROOT . "/Core/Database/structure.txt");
+        $fileContent = @file_get_contents(ROOT . "/Core/Database/structure.txt");
         $currentBDDScriptInDB = explode(PHP_EOL, $fileContent);
 
         $q = $this->queryContainer;
