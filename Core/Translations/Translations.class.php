@@ -32,9 +32,12 @@ class Translations extends Singleton {
     }
 
     public static function get($key, $params){
-        $inst = self::getInstance();
-        $translation = $inst->transform($key);
-        return isset( $translation ) ?  vsprintf($translation, $params) : null;
+        if($key == 'all' || $key == '*'){
+            return self::all();
+        }else{
+            $translation = self::transform($key);
+            return isset( $translation ) ?  vsprintf($translation, $params) : null;
+        }
     }
 
     public static function has($key){

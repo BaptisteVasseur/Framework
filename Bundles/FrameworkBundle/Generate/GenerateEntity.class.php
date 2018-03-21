@@ -103,7 +103,9 @@ class GenerateEntity extends Generate {
     }
 
     protected function createEntityClass( $entityName, $bundleName, $annotations, $constructor, $methods ){
-        $fileName = $this->path . "/" . $bundleName . "/Entity/" . $entityName . ".class.php";
+        $folder = $this->path . "/" . $bundleName . "/Entity";
+        if( ! is_dir($folder) ){ mkdir($folder); }
+        $fileName = $folder . "/" . $entityName . ".class.php";
         $find = ["%%BUNDLE_NAME%%", "%%ENTITY_NAME%%", "    %%INSERT_PROPERTY_HERE%%" . PHP_EOL . PHP_EOL , "        %%INSERT_CONSTRUCTOR_HERE%%" . PHP_EOL, '    %%INSERT_METHOD_HERE%%' . PHP_EOL];
         $replace = [$bundleName, $entityName, $annotations, $constructor, $methods];
         $content = $this->insertInfoInClass( $find, $replace, $this->getTemplateFile("Entity.txt") );

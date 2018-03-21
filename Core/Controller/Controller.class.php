@@ -43,6 +43,18 @@ class Controller {
         }
     }
 
+    public static function renderController($callable, $datas = [])
+    {
+        list($controller, $action) = explode('@', $callable);
+        list($bundle, $controllerName) = explode(':', $controller);
+
+        $classToCall = "bundles/" . $bundle . "/Controller/" . $controllerName;
+        $classToCall = str_replace("/", "\\", $classToCall);
+
+        $class = new $classToCall();
+        return $class->$action($datas);
+    }
+
     public function render($template, $templateVars = []){
 
         if(!isset($GLOBALS['templateVars']) or empty($GLOBALS['templateVars'])){
@@ -97,8 +109,8 @@ class Controller {
     }
 
     public function getForm( $formPath, $formName, $datas ){
-        list($type, $module, $nomForm) = explode(':', $formPath);
-        $formClass = implode('\\', [$type, $module, 'Form', $nomForm]);
+        list($type, $bundle, $formFileName) = explode(':', $formPath);
+        $formClass = implode('\\', [$type, $bundle, 'Form', $formFileName]);
         $method = $formName . "Form";
         $class = new $formClass('', $datas);
 

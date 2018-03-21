@@ -14,7 +14,9 @@ namespace Bundles\FrameworkBundle\Generate;
     }
 
     protected function createControllerClass( $controllerName, $bundleName ){
-        $fileName = $this->path . "/" . $bundleName . "/Controller/" . $controllerName . ".class.php";
+        $folder = $this->path . "/" . $bundleName . "/Controller";
+        if( ! is_dir($folder) ){ mkdir($folder); }
+        $fileName = $folder . "/" . $controllerName . ".class.php";
         $find = ["%%BUNDLE_NAME%%", "%%CONTROLLER_NAME%%"];
         $replace = [$bundleName, $controllerName];
         $content = $this->insertInfoInClass( $find, $replace, $this->getTemplateFile("Controller.txt") );

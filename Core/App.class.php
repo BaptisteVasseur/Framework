@@ -26,15 +26,6 @@ class App
     public static $routeInstance;
     private static $_instance;
     private static $auth_instance;
-//    private static $db_instance;
-//    private static $session_instance;
-//    private static $cookie_instance;
-//    private static $config_instance;
-//    private static $request_instance;
-//    private static $server_instance;
-//    private static $query_instance;
-//    private static $parameters_instance;
-//    private static $translations_instance;
 
     //private static $fileManager_instance;
     private static $controller_instance;
@@ -45,8 +36,8 @@ class App
         session_start();
 
         $inst = self::getInstance();
-        $inst->loadAutoloader();
         $inst->InitRequirementConfig();
+        $inst->loadAutoloader();
         $inst->installHtaccess();
 
         ob_start();
@@ -105,20 +96,15 @@ class App
      *
      */
 
-    public static function getAuthentification(){
-        return Authentification::getInstance();
-//        if (is_null(self::$auth_instance)) {
-//            self::$auth_instance = new Authentification();
-//        }
-//        return self::$auth_instance;
-    }
-
     public static function getController(){
-//        return Controller::getInstance();
         if (is_null(self::$controller_instance)) {
             self::$controller_instance = new Controller();
         }
         return self::$controller_instance;
+    }
+
+    public static function getAuthentification(){
+        return Authentification::getInstance();
     }
 
     public static function getDb(){
@@ -157,8 +143,7 @@ class App
         return Translations::getInstance();
     }
 
-
-    //    public function getFileManager(){
+//    public function getFileManager(){
 //        if (is_null(self::$fileManager_instance)) {
 //            self::$fileManager_instance = new FileManager();
 //        }
@@ -258,7 +243,7 @@ class App
             $formClass = implode('\\', ['Bundles', $moduleName, 'Model', $nomModel]);
         }
 
-        return new $formClass( $this->getDb() );
+        return new $formClass( self::getDb() );
     }
 
     public static function getTable($table){
@@ -292,16 +277,8 @@ class App
      *
      */
 
-    public static function renderController($callable, $datas = '')
-    {
-        list($controller, $action) = explode('@', $callable);
-        list($bundle, $controllerName) = explode(':', $controller);
-
-        $classToCall = "bundles/" . $bundle . "/Controller/" . $controllerName;
-        $classToCall = str_replace("/", "\\", $classToCall);
-
-        $class = new $classToCall();
-        return $class->$action($datas);
+    public static function renderController($callable, $datas = []){
+        return self::getInstance()->getController()->render($callable, $datas);
     }
 
     public static function render($template, $params = []){
@@ -313,12 +290,7 @@ class App
     }
 
     public static function translate($key, $params = []) {
-        $translation = self::getTranslations();
-        if($key == 'all' || $key == '*'){
-            return $translation->all();
-        }
-
-        return $translation->get($key, $params);
+        return self::getTranslations()->get($key, $params);
     }
 
 
