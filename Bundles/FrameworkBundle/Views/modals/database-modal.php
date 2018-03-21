@@ -16,7 +16,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputPassword">Mot de passe</label>
-                            <input class="form-control" id="inputPassword" name="inputPassword" placeholder="Par défaut : vide" data-default="root" value="<?= $dbPassword ?>">
+                            <input class="form-control" id="inputPassword" name="inputPassword" placeholder="Par défaut : vide" data-default="" value="<?= $dbPassword ?>">
                         </div>
                         <div class="form-group col-md-8">
                             <label for="inputHost">URL de la BDD</label>

@@ -171,8 +171,7 @@ class FrameworkController extends Controller {
             $dbName = $config->get('db_name');
         }else{
             $dbUsername = "";
-            //$dbPassword = (Utils::getOS() == "Mac OS") ? 'root' : '' ;
-            $dbPassword = "";
+            $dbPassword = (Utils::getOS() == "Mac OS") ? 'root' : '' ;
             $dbHost = "";
             $dbPort = "";
             $dbName = "";
