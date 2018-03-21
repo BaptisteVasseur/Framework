@@ -356,7 +356,7 @@ class databaseInteraction {
      */
     protected function getDatabaseScriptDiff() {
         $lineToRemove = []; $lineToAdd = [];
-        $fileContent = file_get_contents(ROOT . "/Core/Database/structure.txt");
+        $fileContent = @file_get_contents(ROOT . "/Core/Database/structure.txt");
         $currentScript = explode(PHP_EOL, $fileContent);
 
         $q = $this->queryContainer;
