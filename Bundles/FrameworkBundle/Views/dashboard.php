@@ -58,7 +58,7 @@
                                 </a>
                             </div>
                             <div class="menu-item opacity0 item-5">
-                                <a href="<?= App::generateUrl("framework_admin_route_route") ?>" id="dressing-modal">
+                                <a href="<?= App::generateUrl("framework_admin_database_route") ?>" id="dressing-modal">
                                     <i class="fa fa-database"></i>
                                     <p>Base de données</p>
                                 </a>
