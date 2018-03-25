@@ -7,7 +7,7 @@ define('BASE_URL', App::getBaseUrl() );
 App::initialize();
 $app = App::getInstance();
 
-if($_GET['url'] == ''){ $_GET['url'] = '/home'; }
+if($_GET['url'] == ''){ $_GET['url'] = App::getDefaultRoute(); }
 $router = new Core\Router\Router($_GET['url']);
 
 App::loadBundles();

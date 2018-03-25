@@ -2,6 +2,8 @@
 
 namespace Bundles\UserBundle\Entity;
 
+use App;
+use Core\Authentification\Authentification;
 use Core\Collection\ArrayCollection;
 use Core\Collection\OneToManyCollection;
 use Core\Collection\OneToOneCollection;
@@ -81,7 +83,6 @@ class UserEntity extends Entity {
      */
 
     public function getId() { return $this->id; }
-    public function setId($id) { $this->id = $id; return $this; }
 
     public function getNom() { return $this->nom; }
     public function setNom($nom) { $this->nom = $nom; return $this; }
@@ -91,7 +92,7 @@ class UserEntity extends Entity {
 
     public function getPassword() { return $this->password; }
     public function setPassword($password) { $this->password = $password; return $this; }
-    public function setPlainPassword($password) { $this->password = sha1($password); return $this; }
+    public function setPlainPassword($password) { $this->password = App::getAuthentification()->encryptPassword($password); return $this; }
 
     public function getValidationDate() { return $this->validationDate; }
     public function setValidationDate($validationDate) { $this->validationDate = $validationDate; return $this; }

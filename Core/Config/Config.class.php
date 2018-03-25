@@ -12,14 +12,23 @@ class Config extends Singleton {
     public function __construct() {
         $parameters = (array) Utils::XMLToArray( ROOT . '/Config/Config.xml' );
         unset($parameters['comment']);
-        self::$parameters = $parameters;
+
+        foreach ($parameters as $paramName => $paramValue){
+            $name = strtolower('app' . ":" . $paramName);
+            self::$parameters[$name] = $paramValue;
+        }
     }
 
     public function addXMLConfigFile($filePath) {
         $parameters = (array) Utils::XMLToArray( $filePath );
         unset($parameters['comment'], $parameters[0]);
-        if( !empty($parameters) ){
-            self::$parameters = array_merge(self::$parameters, $parameters);
+
+        list($racine, $path) = explode('Bundles/', $filePath);
+        $bundleName = str_replace("/Config/Config.xml", '', $path);
+
+        foreach ($parameters as $paramName => $paramValue){
+            $name = strtolower($bundleName . ":" . $paramName);
+            self::$parameters[$name] = $paramValue;
         }
     }
 
@@ -40,14 +49,17 @@ class Config extends Singleton {
     }
 
     public static function set($key, $value) {
+        $key = strtolower($key);
         self::$parameters[$key] = $value;
     }
 
     public static function has($key) {
+        $key = strtolower($key);
         return array_key_exists($key, self::$parameters);
     }
 
     public static function remove($key) {
+        $key = strtolower($key);
         unset(self::$parameters[$key]);
     }
 
@@ -56,6 +68,7 @@ class Config extends Singleton {
     }
 
     public static function get($key){
+        $key = strtolower($key);
         return self::$parameters[$key];
     }
 

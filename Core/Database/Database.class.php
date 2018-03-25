@@ -25,7 +25,7 @@ class Database extends Singleton {
 
 	public function getPDO(){
 		if($this->pdo === null){
-			$pdo = new PDO("mysql:host={$this->db_host};dbname={$this->db_name}", $this->db_user, $this->db_pass);
+			$pdo = new PDO("mysql:host={$this->db_host};dbname={$this->db_name};charset=utf8", $this->db_user, $this->db_pass);
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$this->pdo = $pdo;
 
@@ -66,16 +66,45 @@ class Database extends Singleton {
         }
     }
 
-    public function update($statement, $attributes){
-      return  $this->noFetchPrepareQuery($statement, $attributes);
-    }
-
     public function add($statement, $attributes){
-       return $this->noFetchPrepareQuery($statement, $attributes);
+        return $this->noFetchPrepareQuery($statement, $attributes);
     }
 
-    public function remove($statement, $attributes){
-       return $this->noFetchPrepareQuery($statement, $attributes);
+    public function update($tableName, $toUpdate, $where){
+        $toUpdateQuery = "";
+        $toUpdateValues = [];
+        $whereQuery = "";
+        $whereValues = [];
+
+        foreach ($toUpdate as $name => $value){
+            if($toUpdateQuery != ''){ $toUpdateQuery .= ', '; }
+            if($toUpdateQuery == ''){ $toUpdateQuery .= 'SET'; }
+            $toUpdateQuery .= " $name = ? ";
+            $toUpdateValues[] = $value;
+        }
+
+        foreach ($where as $name => $value){
+            if($whereQuery != ''){ $whereQuery .= 'AND'; }
+            if($whereQuery == ''){ $whereQuery .= 'WHERE'; }
+            $whereQuery .= " $name = ? ";
+            $whereValues[] = $value;
+        }
+
+        return $this->noFetchPrepareQuery("UPDATE $tableName $toUpdateQuery $whereQuery", array_merge($toUpdateValues, $whereValues));
+    }
+
+    public function remove($tableName, $where){
+        $whereQuery = "";
+        $whereValues = [];
+
+        foreach ($where as $name => $value){
+            if($whereQuery != ''){ $whereQuery .= 'AND'; }
+            if($whereQuery == ''){ $whereQuery .= 'WHERE'; }
+            $whereQuery .= " $name = ? ";
+            $whereValues[] = $value;
+        }
+
+       return $this->noFetchPrepareQuery("DELETE FROM $tableName $whereQuery", $whereValues);
     }
 
     public function noFetchPrepareQuery($statement, $attributes){
@@ -93,27 +122,30 @@ class Database extends Singleton {
     }
 
     public function getTableList(){
-        $alltables = $this->getPDO()->query("SHOW TABLES");
-        while ($row = $alltables->fetch(PDO::FETCH_NUM)) {
+        $allTables = $this->getPDO()->query("SHOW TABLES");
+        $tableList = [];
+        while ($row = $allTables->fetch(PDO::FETCH_NUM)) {
             $tableList[] = $row[0];
         }
         return $this->tableList = $tableList;
     }
 
-    public function count($params = [], $values = [], $tableName){
-        foreach ($params as $k => $paramName){
-            if($paramsQueryConstructor == ''){ $paramsQueryConstructor .= 'WHERE'; }
+    public function count($params, $tableName){
+        $paramsQueryConstructor = "";
+        $paramValues = [];
+        foreach ($params as $name => $value){
             if($paramsQueryConstructor != ''){ $paramsQueryConstructor .= 'AND'; }
-            $paramsQueryConstructor .= " $paramName = ? ";
+            if($paramsQueryConstructor == ''){ $paramsQueryConstructor .= 'WHERE'; }
+            $paramsQueryConstructor .= " $name = ? ";
+            $paramValues[] = $value;
         }
-        $query = "SELECT COUNT(*) as nb FROM $tableName WHERE $paramsQueryConstructor";
-        $result = $this->prepare($query, $values, true, PDO::FETCH_ASSOC);
+        $result = $this->prepare("SELECT COUNT(*) as nb FROM $tableName $paramsQueryConstructor", $paramValues, true, PDO::FETCH_ASSOC);
         $result = ($result['nb'] && $result['nb'] > 0) ? $result['nb'] : 0;
         return $result;
     }
 
-    public function has($params = [], $values = [], $tableName){
-        return ( $this->count($params, $values, $tableName) > 0 ) ? true : false ;
+    public function has($params, $tableName){
+        return ( $this->count($params, $tableName) > 0 ) ? true : false ;
     }
 
 

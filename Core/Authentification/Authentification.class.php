@@ -3,6 +3,7 @@
 namespace Core\Authentification;
 
 use App;
+use Bundles\UserBundle\Entity\UserEntity;
 use Core\Cookie\Cookie;
 use Core\Database\Database;
 use Core\Session\Session;
@@ -128,7 +129,7 @@ class Authentification extends Singleton {
 		}
 	}
 
-	public function getUser(){
+	public function getUser() {
 	    if( $this->logged() ){
             return unserialize( $this->session->get('auth')['user'] );
         }

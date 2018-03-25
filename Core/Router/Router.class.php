@@ -111,6 +111,7 @@ class Router {
                 $route = $XMLArray['url'];
                 $controller = $XMLArray['controller'];
                 $action = $XMLArray['action'];
+                unset($XMLArray['params']['comment']);
                 $params = $XMLArray['params'];
 
                 $controller = str_replace('/', '\\', $controller);
@@ -262,9 +263,8 @@ class Router {
      */
 
     public static function redirectToRoute($routeName, $params = [], $absoluthPath = true){
-        $inst = self::getInstance();
-        $url = $inst->generateUrl($routeName, $params, $absoluthPath);
-        $inst->redirect($url);
+        $url = self::generateUrl($routeName, $params, $absoluthPath);
+        self::redirect($url);
     }
 
     public static function redirect($url){
@@ -287,6 +287,10 @@ class Router {
 
     public static function getCurrentRouteName() {
         return self::getCurrentRoute()['name'];
+    }
+
+    public static function redirectToPreviousRoute(){
+        // TODO :
     }
 
 

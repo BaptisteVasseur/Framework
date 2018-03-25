@@ -5,7 +5,7 @@
 <div class="sidebar" data-color="red" data-image="<?= App::getRessource("frameworkBundle:img:sidebar-4.jpg") ?>" style="background-image: url(<?= App::getRessource("frameworkBundle:img:sidebar-4.jpg") ?>);">
     <div class="sidebar-wrapper">
         <div class="logo">
-            <a href="" class="simple-text">
+            <a href="<?= BASE_URL ?>" class="simple-text">
                 Administration
             </a>
         </div>

@@ -2,66 +2,39 @@
 
 namespace Core\Email;
 
-class Email{
+use Core\Config\Config;
 
-    public $separator = "\\r\\n";
-    protected $email;
-    protected $sujet;
-    protected $message;
+class Email extends PHPMailer {
 
-    protected $senderName = 'MBA Park';
-    protected $senderEmail = 'no-reply@mbaPark.fr';
 
-    public function addEmail($email){
-        $this->email = $email;
-        return $this;
+    public function __construct($exceptions = null)
+    {
+        parent::__construct($exceptions);
+
+        $this->senderName = Config::get('App:Email_SenderName');
+        $this->senderEmail = Config::get('App:Email_SenderEmail');
+
+        $this->isSMTP();
+        $this->CharSet = "UTF-8";
+        $this->Host = Config::get('App:Email_SenderHost');
+        $this->SMTPAuth = true;
+        $this->Username = Config::get('App:Email_SenderEmail');
+        $this->Password = Config::get('App:Email_SenderPassword');
+        $this->SMTPSecure = 'tls';
+
+        $this->isHTML(true);
+
+        $this->setFrom( Config::get('App:Email_SenderEmail'), Config::get('App:Email_SenderName'));
     }
 
     public function setContent($content){
-        $this->message = $content;
-        return $this;
+        $this->Body = $content;
     }
 
-    public function setSubject($sujet){
-        $this->sujet = $sujet;
-        return $this;
+    public function setSubject($subject){
+        $this->Subject = $subject;
     }
 
-
-    public function send(){
-
-        $mail = $this->email;
-        $sujet = $this->sujet;
-        $message_html = $this->message;
-
-        $senderName = $this->senderName;
-        $senderEmail = $this->senderEmail;
-
-
-        if ( !preg_match("#^[a-z0-9._-]+@(hotmail|live|msn).[a-z]{2,4}$#", $mail) )
-        {
-            $ln = "\r\n";
-        }else{
-            $ln = "\n";
-        }
-
-        $boundary = "-----=".md5(rand());
-
-        $header = "From: '$senderName'<$senderEmail>" . $ln;
-        $header.= "Reply-to: '$senderName' <$senderEmail>" . $ln;
-        $header.= "MIME-Version: 1.0" . $ln;
-        $header.= "Content-Type: multipart/alternative;" . $ln . " boundary=\"$boundary\"" . $ln;
-
-        $message = $ln . "--" . $boundary . $ln;
-        $message.= "Content-Type: text/html; charset='ISO-8859-1'" . $ln;
-        $message.= "Content-Transfer-Encoding: 8bit" . $ln;
-        $message.= $ln . $message_html . $ln;
-
-        $message.= $ln . "--" . $boundary . "--" . $ln;
-        $message.= $ln . "--" . $boundary . "--" . $ln;
-
-        return mail($mail,$sujet,$message,$header);
-    }
 
 
 

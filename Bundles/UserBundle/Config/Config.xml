@@ -1,3 +1,26 @@
 <parameters>
 
+    <defaultRoute>/</defaultRoute>
+    <accountConfirmationRequired>true</accountConfirmationRequired>
+    <generateNewPasswordWhenForgot>false</generateNewPasswordWhenForgot>
+
+
+    <template_login>userBundle:form</template_login>
+    <template_register>UserBundle:form</template_register>
+    <template_forgot>UserBundle:form</template_forgot>
+    <template_reset>UserBundle:form</template_reset>
+
+
+    <template_changePassword>UserBundle:form</template_changePassword>
+    <template_changeEmail>UserBundle:form</template_changeEmail>
+
+    <!--<template_login></template_login>-->
+    <!--<template_login></template_login>-->
+    <!--<template_login></template_login>-->
+    <!--<template_login></template_login>-->
+    <!--<template_login></template_login>-->
+    <!--<template_login></template_login>-->
+    <!--<template_login></template_login>-->
+    <!--<template_login></template_login>-->
+
 </parameters>

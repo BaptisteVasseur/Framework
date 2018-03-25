@@ -5,6 +5,7 @@ namespace Core\Model;
 use App;
 use Core\Collection\OneToOneCollection;
 use Core\Database\Database;
+use Core\Entity\Entity;
 use Core\ORM\saveRelationEntity;
 use Core\ORM\updateRelationEntity;
 use Error;
@@ -131,6 +132,8 @@ class Model{
             }
         }
 
+        $this->newEntities = [];
+        $this->databaseEntities = [];
 
 //        return $this->refresh( $elementsIdList , $this->databaseEntities );
 
@@ -158,8 +161,34 @@ class Model{
         return $this->databaseEntities;
     }
 
-    public function delete($element, $debug = false){
+    public function remove($element, $debug = false){
+        if($element instanceof Entity){
+            $id = $element->getId();
+        }else{
+            $id = $element;
+        }
 
+        $tableName = $this->getTableName();
+        if ($this->db->remove($tableName, ["id" => $id]) ){
+            if($debug){ echo App::translate('app:entityRemoved', [$id, $tableName]); }
+        }else{
+            if($debug){ echo App::translate('app:entityNotRemoved', [$id, $tableName]); }
+        }
+    }
+
+    public function update($element, $paramsToUpdate, $debug = false){
+        if($element instanceof Entity){
+            $id = $element->getId();
+        }else{
+            $id = $element;
+        }
+
+        $tableName = $this->getTableName();
+        if ($this->db->update($tableName, $paramsToUpdate , ["id" => $id]) ){
+            if($debug){ echo App::translate('app:entityNotRemoved', [$id, $tableName]); }
+        }else{
+            if($debug){ echo App::translate('app:entityNotUpdated', [$id, $tableName]); }
+        }
     }
 
 
@@ -199,10 +228,10 @@ class Model{
         $result = $this->db->add($query, $values);
 
         if($result){
-            if($debug){ echo App::translate('core:model:entitySaved'); }
+            if($debug){ echo App::translate('app:entitySavedSuccess'); }
             return $this->db->lastInsertId();
         }else{
-            if($debug){ echo App::translate('core:model:entitySavedError'); }
+            if($debug){ echo App::translate('app:entitySavedError'); }
             return false;
         }
     }
@@ -240,9 +269,9 @@ class Model{
         $result = $this->db->add($query, $values);
 
         if($result){
-            if($debug){ echo App::translate('core:model:entityUpdated'); }
+            if($debug){ echo App::translate('app:entityUpdatedSuccess'); }
         }else{
-            if($debug){ echo App::translate('core:model:entityUpdatedError'); }
+            if($debug){ echo App::translate('app:entityUpdatedError'); }
         }
 
         return $element->getId();
@@ -259,8 +288,8 @@ class Model{
         $tableName = $this->getTableName();
 
         $orderByQueryConstructor = '';
-        $queryConstructor = '';
-        $values = [];
+        $paramsQueryConstructor = '';
+        $paramsQueryValues = [];
 
         foreach ($params as $param => $value){
             if($paramsQueryConstructor != ''){ $paramsQueryConstructor .= 'AND'; }
@@ -323,10 +352,9 @@ class Model{
         return $this->findBy();
     }
 
-    public function has($element){
-        $id = $element->getId();
+    public function has($findParams){
         $table = $this->getTableName();
-        return $this->db->has(['id'], [$id], $table);
+        return $this->db->has($findParams, $table);
     }
 
 }

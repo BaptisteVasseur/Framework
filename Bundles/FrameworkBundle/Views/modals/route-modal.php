@@ -216,7 +216,7 @@
         $('#modalAddRouteStep1').modal('show');
     });
 
-    // Récupéres les bundles
+    // Récupères les bundles
     let loadBundles = function() {
         $.get('<?= App::generateUrl("framework_admin_form_route_getBundleList_route") ?>', {}, function(donnees){
             $('#inputBundle').html(donnees);
@@ -228,7 +228,7 @@
         var bundleName = $(this).val();
         $.get('<?= App::generateUrl("framework_admin_form_route_getControllerList_route") ?>', {bundleName: bundleName}, function(donnees){
             $('#inputController').html(donnees);
-            $('#btn-add-controller').show(); // Quand on selectionne un bundle, on affiche le bouton pour créer un controller et on cache le bouton pour créer une action
+            $('#btn-add-controller').show(); // Quand on sélectionne un bundle, on affiche le bouton pour créer un controller et on cache le bouton pour créer une action
             $('#btn-add-action').hide();
         });
     });
@@ -239,16 +239,16 @@
         var controllerName = $(this).val();
         $.get('<?= App::generateUrl("framework_admin_form_route_getActionList_route") ?>', {bundleName: bundleName, controllerName: controllerName}, function(donnees){
             $('#inputAction').html(donnees);
-            $('#btn-add-action').show(); // Quand on selectionne un controller, on affiche le bouton pour ajouter une action
+            $('#btn-add-action').show(); // Quand on sélectionne un controller, on affiche le bouton pour ajouter une action
         });
     });
 
 
-    // Lorsque l'on clique sur le bouton pour creer un bundle
+    // Lorsque l'on clique sur le bouton pour créer un bundle
     $('#btn-add-bundle').click(function (e) {
         e.preventDefault();
 
-        let bundleName = prompt("Nom du bundle :");
+        let bundleName = prompt("Nom du bundle (sans le suffix 'Bundle') :");
         let bundleAuthor = prompt("Auteur du bundle :");
         let bundleUrl = prompt("Url du bundle :");
 
@@ -262,10 +262,10 @@
         e.preventDefault();
 
         let bundleName = $('#inputBundle').val();
-        let controllerName = prompt("Nom du controller :");
+        let controllerName = prompt("Nom du controller (sans le suffix 'Controller') :");
 
         $.post('<?= App::generateUrl("framework_admin_form_controller_route") ?>', {'inputNom' : controllerName, 'inputBundle': bundleName}, function (donnees) {
-            $('#inputBundle').trigger('change'); // On récupére la liste des controllers pour le bundle correspondant
+            $('#inputBundle').trigger('change'); // On récupère la liste des controllers pour le bundle correspondant
         });
     });
 
@@ -275,10 +275,10 @@
 
         let bundleName = $('#inputBundle').val();
         let controllerName = $('#inputController').val();
-        let actionName = prompt("Nom de l'action :");
+        let actionName = prompt("Nom de l'action (sans le suffix 'Action') :");
 
         $.get('<?= App::generateUrl("framework_admin_form_action_route") ?>', {'inputBundle': bundleName, 'inputController' : controllerName, 'inputAction': actionName}, function (donnees) {
-            $('#inputController').trigger('change'); // On récupére la liste des actions pour le bundle et le controller correspondant
+            $('#inputController').trigger('change'); // On récupère la liste des actions pour le bundle et le controller correspondant
         });
     });
 </script>

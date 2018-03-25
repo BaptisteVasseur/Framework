@@ -1,5 +1,60 @@
 <routes>
 
+    <route name="login">
+        <url>/login</url>
+        <controller>UserBundle/LoginController</controller>
+        <action>loginAction</action>
+    </route>
+    <route name="register">
+        <url>/register</url>
+        <controller>UserBundle/LoginController</controller>
+        <action>registerAction</action>
+    </route>
+    <route name="validAccount">
+        <url>/confirm/{:userId}/{:token}</url>
+        <controller>UserBundle/LoginController</controller>
+        <action>validAccountAction</action>
+        <params>
+            <userId>([0-9]+)</userId>
+            <token>(.+)</token>
+        </params>
+    </route>
+    <route name="logout">
+        <url>/logout</url>
+        <controller>UserBundle/LoginController</controller>
+        <action>logoutAction</action>
+    </route>
+    <route name="forgotPassword">
+        <url>/forgot</url>
+        <controller>UserBundle/LoginController</controller>
+        <action>forgotPasswordAction</action>
+    </route>
+    <route name="resetPassword">
+        <url>/reset/{:userId}/{:token}</url>
+        <controller>UserBundle/LoginController</controller>
+        <action>resetPasswordAction</action>
+        <params>
+            <userId>([0-9]+)</userId>
+            <token>(.+)</token>
+        </params>
+    </route>
+
+
+    <route name="changePseudo">
+        <url>/account/change/pseudo</url>
+        <controller>UserBundle/AccountController</controller>
+        <action>changePseudoAction</action>
+    </route>
+    <route name="changeEmail">
+        <url>/account/change/email</url>
+        <controller>UserBundle/AccountController</controller>
+        <action>changeEmailAction</action>
+    </route>
+    <route name="changePassword">
+        <url>/account/change/password</url>
+        <controller>UserBundle/AccountController</controller>
+        <action>changePasswordAction</action>
+    </route>
 
 
 </routes>

@@ -14,12 +14,12 @@ class Session extends Singleton {
 
     // Method Flash
 
-    public static function setFlash($key, $message){
+    public static function addFlash($key, $message){
         $_SESSION['flash'][$key] = $message;
     }
 
     public static function hasFlashes($key = ''){
-        if(!empty($key)){
+        if(empty($key)){
             return isset($_SESSION['flash']);
         }
         return isset($_SESSION['flash'][$key]);
@@ -38,23 +38,19 @@ class Session extends Singleton {
     }
 
     public static function success($message){
-        $inst = self::getInstance();
-        $inst->setFlash('success', "<div class='alert alert-success'>$message</div>");
+        self::addFlash('success', "<div class='alert alert-success'>$message</div>");
     }
 
     public static function error($message){
-        $inst = self::getInstance();
-        $inst->setFlash('error', "<div class='alert alert-danger'>$message</div>");
+        self::addFlash('error', "<div class='alert alert-danger'>$message</div>");
     }
 
     public static function getSuccess(){
-        $inst = self::getInstance();
-        return $inst->getFlash('success');
+        return self::getFlash('success');
     }
 
     public static function getError(){
-        $inst = self::getInstance();
-        return $inst->getFlash('error');
+        return self::getFlash('error');
     }
 
     // Method Session

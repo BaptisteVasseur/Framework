@@ -22,6 +22,8 @@
 
 //mapped by / onetomany , manytoone , manytomany, onetoone
 
-// TODO : getClassName() -> Utils:: ? -> obj ou name / option pour juste nom ou tout le namespace
-// TODO : method retourne nom bundle
-// TODO : Services (fonction php qui peut être accesible partout) -> include de fichier ?
+// getClassName() -> Utils:: ? -> obj ou name / option pour juste nom ou tout le namespace
+// method retourne nom bundle
+// Services (fonction php qui peut être accesible partout) -> include de fichier ?
+
+// log de connexion examinateur

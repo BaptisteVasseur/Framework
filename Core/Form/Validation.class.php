@@ -182,7 +182,7 @@ class Validation{
             if(isset($options['regexErrorMsg']) && !empty($options['regexErrorMsg'])) {
                 $this->errors[] = $options['regexErrorMsg'];
             }else{
-                $this->errors[] = "Le champs <b><u> '$nomChamp' </u></b> n'est pas valide !";
+                $this->errors[] = "Le champs <b>$nomChamp</b> n'est pas valide !";
             }
             return false;
         }

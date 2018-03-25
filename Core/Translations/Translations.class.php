@@ -7,48 +7,37 @@ use Core\Utils\Utils;
 
 class Translations extends Singleton {
 
-    protected $translations;
+    protected static $translations;
 
     public function __construct() {
         $translations = (array) Utils::XMLToArray( ROOT . '/Config/Translations.xml' );
         unset($translations['comment']);
-        $this->translations = $translations;
-    }
 
-    public static function addXMLTranslationFile($filePath) {
-        $inst = self::getInstance();
-        $translations = (array) Utils::XMLToArray( $filePath );
-        unset($translations['comment'], $translations[0]);
-        if( !empty($translations) ){
-            $inst->translations = array_merge($inst->translations, $translations);
+        foreach ($translations as $translationName => $translationValue){
+            $name = strtolower('app' . ":" . $translationName);
+            self::$translations[$name] = $translationValue;
         }
     }
 
-    public static function transform($key){
-        $inst = self::getInstance();
-        list($folder, $class, $name) = explode(':', $key);
-        $translation = ( (array) $inst->translations[$folder]->$class->$name )[0];
-        return $translation;
+    public function addXMLTranslationFile($filePath) {
+        $translations = (array) Utils::XMLToArray( $filePath );
+        unset($translations['comment'], $translations[0]);
+
+        list($racine, $path) = explode('Bundles/', $filePath);
+        $bundleName = str_replace("/Config/Translations.xml", '', $path);
+
+        foreach ($translations as $transName => $transValue){
+            $name = strtolower($bundleName . ":" . $transName);
+            self::$translations[$name] = $transValue;
+        }
     }
 
     public static function get($key, $params){
-        if($key == 'all' || $key == '*'){
-            return self::all();
-        }else{
-            $translation = self::transform($key);
-            return isset( $translation ) ?  vsprintf($translation, $params) : null;
-        }
+        $translation = self::$translations[ strtolower($key) ];
+        return isset( $translation ) ?  vsprintf($translation, $params) : null;
     }
 
-    public static function has($key){
-        $inst = self::getInstance();
-        $translation = $inst->transform($key);
-        return isset( $translation );
+    public static function all() {
+        return self::$translations;
     }
-
-    public static function all(){
-        $inst = self::getInstance();
-        return $inst->translations;
-    }
-
 }

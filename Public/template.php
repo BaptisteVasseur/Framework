@@ -15,7 +15,7 @@
 
   <body cz-shortcut-listen="true">
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="    position: relative;">
       <div class="container">
         <div class="navbar-header">
           <a class="navbar-brand" href="#">Portflio Template</a>

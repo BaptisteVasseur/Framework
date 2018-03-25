@@ -2,10 +2,13 @@
 
 namespace Core\Form;
 
+use App;
+
 class Form{
 
 	public $typeForm;
-	public $data;
+	public $data = [];
+    protected $validation;
 
 	protected $formId = 1;
 	protected $method = 'POST';
@@ -25,9 +28,7 @@ class Form{
     const REQUIRED = true;
     const NOT_REQUIRED = false;
 
-
-	public function __construct($typeForm = '', $data = ''){
-		$this->typeForm = $typeForm;
+    public function __construct($data = []){
 		$this->data = $data;
 		if (session_status() == PHP_SESSION_NONE) {
     		session_start();
@@ -52,11 +53,7 @@ class Form{
 		}
 		return $this;
 	}
-	public function render($return = ''){
-
-		$typeForm = $this->typeForm;
-		if($this->typeForm != '') { $this->$typeForm( $this->data ); }
-
+	public function render($return = false){
 		$enctypeElem = ($this->enctype != '') ? "enctype='{$this->enctype}'": '' ;
 
 		$htmlFormRendered = '';
@@ -64,25 +61,30 @@ class Form{
 		if($this->success != null){ $htmlFormRendered = $this->getSuccess(); }
 		if($this->message != null){ $htmlFormRendered = $this->getMessage(); }
 
+		foreach ($this->htmlFormConstructor as $k => $elem){
+		    $value = $this->getDefaultData($k, $this->data[$k]);
+            $elem = str_replace('data-value="__'.strtoupper($k).'__"', 'value="'.$value.'"', $elem);
+            $this->htmlFormConstructor[$k] = $elem;
+        }
+
 		$htmlFormRendered .= "<form action='{$this->action}' method='{$this->method}' id='{$this->formId}' $enctypeElem>";
 		$htmlFormRendered .= implode('', $this->htmlFormConstructor);
 		$htmlFormRendered .= '</form>';
 
-		if(!empty($return)){
+		if($return){
 		    return $htmlFormRendered;
+        }else{
+            echo $htmlFormRendered;
+		    $this->loadFormScript();
         }
-        echo $htmlFormRendered;
-		$this->loadFormScript();
 	}
     
 	public function addFormScript($script){
 		$this->formScript[] = $script;
 	}
 	public function loadFormScript(){
-		$formatedscript = implode('', $this->formScript);
-		echo $formatedscript;
+        echo implode('', $this->formScript);
 	}
-
 	public function setAction($action){ 
 		$this->action = $action; 
 		return $this; 
@@ -107,11 +109,10 @@ class Form{
         $this->error[] = $value;
         return $this;
     }
-    public function message($value){
-        $this->message[] = $value;
-        return $this;
-    }
-
+//    public function message($value){
+//        $this->message[] = $value;
+//        return $this;
+//    }
 	public function getError(){
 		$return = '<div class="alert alert-danger">' . implode('<br>', $this->error) . '</div>';
 		return $return; 
@@ -120,14 +121,14 @@ class Form{
         $return = '<div class="alert alert-success">' . implode('<br>', $this->success) . '</div>';
         return $return;
     }
-    public function getMessage(){
-        $return = implode('<br>', $this->message);
-        return $return;
-    }
+//    public function getMessage(){
+//        $return = implode('<br>', $this->message);
+//        return $return;
+//    }
 
     public function clear(){
-	    $datas = $this->data;
-	    foreach ($datas as $k => $v){
+	    $data = $this->data;
+	    foreach ($data as $k => $v){
             $this->unsetData($k);
         }
     }
@@ -137,16 +138,10 @@ class Form{
         return $this;
     }
 
-    public function getDatas(){
-        return $this->data;
-    }
-
-
-
-
 
 	protected function addTextElement($name, $label, $isRequired, $value, $options, $typeElem ){
 
+        $elemOption = "";
         foreach ($options as $k => $v){
             $elemOption .= "$k='$v'";
         }
@@ -154,8 +149,8 @@ class Form{
 		$requiredElem = ($isRequired) ? 'required' : '' ;
 		$asterisk = ($isRequired) ? '<sup style="color:red">*</sup>' : '' ;
 
-		$value = $this->getDefaultData($name, $value);
-		$valueElem = ($value != '') ? "value='$value'" : '' ;
+//		$value = $this->getDefaultData($name, $value);
+		$valueElem = ($value != '') ? "value='$value'" : 'data-value="__'.strtoupper($name).'__"' ;
 		$labelElem = ($label != '') ? "<label for='$name'>$label $asterisk</label>" : '' ;
 
 		if($typeElem == 'textarea'){
@@ -168,7 +163,8 @@ class Form{
 
 	protected function addBtnElement($name, $value, $class, $inline){
 		$classElem = ($class != '') ? "class='$class'" : "" ;
-		$returnElem = "<input type='submit' id='{$name}-btn' name='{$name}' $classElem value='$value'>";
+        $value = htmlentities($value);
+        $returnElem = '<input type="submit" id="'.$name.'-btn" name="'.$name.'" '.$classElem.' value="'.$value.'">';
 		if($inline){
 			return $returnElem;
 		}
@@ -235,54 +231,54 @@ class Form{
 // Text input Form
 
 	public function text($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
-	    $this->htmlFormConstructor[] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'text');
+	    $this->htmlFormConstructor[$name] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'text');
 		return $this;
 	}
 
 	public function password($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
-	    $this->htmlFormConstructor[] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'password');
+	    $this->htmlFormConstructor[$name] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'password');
 		return $this;
 	} 
 
 	public function email($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
-	    $this->htmlFormConstructor[] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'email');
+	    $this->htmlFormConstructor[$name] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'email');
 		return $this;
 	}
 
 	public function url($name, $label = '', $isRequired = true, $value = 'http://', $options = ['class' => 'form-control'] ){
-	    $this->htmlFormConstructor[] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'url');
+	    $this->htmlFormConstructor[$name] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'url');
 		return $this;
 	}
 
 	public function phone($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
-	    $this->htmlFormConstructor[] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'tel');
+	    $this->htmlFormConstructor[$name] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'tel');
 		return $this;
 	}
 
 	public function date($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
 		$options .= ' pattern="\d{4}-\d{2}-\d{2}" placeholder="YYYY-MM-DD"';
-		$this->htmlFormConstructor[] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'date');
+		$this->htmlFormConstructor[$name] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'date');
 		return $this;
 	}
 
 	public function number($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
-	    $this->htmlFormConstructor[] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'number');
+	    $this->htmlFormConstructor[$name] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'number');
 		return $this;
 	}
 
 	public function range($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
-	    $this->htmlFormConstructor[] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'range');
+	    $this->htmlFormConstructor[$name] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'range');
 		return $this;
 	}
 
 	public function color($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
 		$options .= ' pattern="#[a-g0-9]{6}"';
-		$this->htmlFormConstructor[] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'color');
+		$this->htmlFormConstructor[$name] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'color');
 		return $this;
 	}
 
 	public function textarea($name, $label = '', $isRequired = true, $value = null, $options = ['class' => 'form-control'] ){
-	    $this->htmlFormConstructor[] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'textarea');
+	    $this->htmlFormConstructor[$name] = $this->addTextElement($name, $label, $isRequired, $value, $options, 'textarea');
 		return $this;
 	}
 
@@ -292,17 +288,17 @@ class Form{
 
 
  	public function checkbox($name, $label = '', $isRequired = false, $value = null, $options = null ){
- 		$this->htmlFormConstructor[] = $this->addCheckboxElement($name, $label, $isRequired, $value, $options);
+ 		$this->htmlFormConstructor[$name] = $this->addCheckboxElement($name, $label, $isRequired, $value, $options);
  		return $this;
  	}
 
  	public function radio($name, $label = '', $values, $isRequired = true, $options = null){
- 		$this->htmlFormConstructor[] = $this->addRadioElement($name, $label, $values, $isRequired, $options);
+ 		$this->htmlFormConstructor[$name] = $this->addRadioElement($name, $label, $values, $isRequired, $options);
  		return $this;
  	}
 
  	public function select($name, $label = '', $values, $isRequired = true, $options = null){
- 		$this->htmlFormConstructor[] = $this->addSelectElement($name, $label, $values, $isRequired, $options);
+ 		$this->htmlFormConstructor[$name] = $this->addSelectElement($name, $label, $values, $isRequired, $options);
  		return $this;
  	}
 
@@ -311,13 +307,13 @@ class Form{
  		return $this;
  	}
 
-	public function submit($value = 'Envoyer', $name = 'submit', $class = 'btn-primary', $inline = true){ 
-		$this->htmlFormConstructor[] = $this->addBtnElement($name, $value, 'btn '.$class, $inline);
+	public function submit($value = 'Envoyer', $name = 'submit', $class = 'btn-primary', $inline = true){
+		$this->htmlFormConstructor[$name] = $this->addBtnElement($name, $value, 'btn '.$class, $inline);
 		return $this;
 	}
 
 	public function cancel($value = 'Annuler', $name = 'cancel', $class = 'btn-danger', $inline = true){ 
-		$this->htmlFormConstructor[] = $this->addBtnElement($name, $value, 'btn '.$class, $inline);
+		$this->htmlFormConstructor[$name] = $this->addBtnElement($name, $value, 'btn '.$class, $inline);
 		return $this;
 	}
 
@@ -327,7 +323,7 @@ class Form{
  	public function captcha($label = '', $isRequired = true){
 
  		$labelElem = ($label != '') ? "<label>$label</label>" : '' ;
- 		$this->htmlFormConstructor[] = $labelElem . '<div class="g-recaptcha" data-sitekey="' . App::getConfig()->get('form_Google_Public_Key') . '"></div><br>';
+ 		$this->htmlFormConstructor['captcha'] = $labelElem . '<div class="g-recaptcha" data-sitekey="' . App::getConfig()->get('form_Google_Public_Key') . '"></div><br>';
  	}
 
  	public function file($name, $label, $isRequired = false, $options = null, $class = 'btn btn-info', $multiple = false){
@@ -339,14 +335,14 @@ class Form{
  			$labelExemple =  "<label $classElem id='inputLabel-exempleNameLabel' for='exempleNameFor'>$label</label>" ;
  			$exempleInput = $labelExemple . "<input id='exempleNameId' name='$nameElem' data-label='$label' class='inputTrigger' type='file'>";
  			$exempleElem = "<div id='exempleInputFiles' data-name='$name' class='form-group' style='display:none;'>" . $exempleInput . "</div>";
- 			$this->htmlFormConstructor[] = $exempleElem ;
+ 			$this->htmlFormConstructor[$name . 'Example'] = $exempleElem ;
  		}else{
  			$nameElem = $name;
  		}
 
  		$element = $this->surround( $labelElem . "<input id='$name' name='$nameElem' data-label='$label' class='inputTrigger' type='file' style='display:none'>" );
 
- 		$this->htmlFormConstructor[] = $element ;
+ 		$this->htmlFormConstructor[$name] = $element ;
  		$this->addFormScript( $this->singleFileScript );
  		$this->enctype = 'multipart/form-data';
 
@@ -369,6 +365,10 @@ class Form{
 
 
 
+	public function setValidation(Validation $validation){
+	    $this->validation = $validation;
+	    return $this;
+    }
 
     public function isValid(){ return $this->validation->isValid(); }
     public function getData(){ return $this->validation->getData(); }

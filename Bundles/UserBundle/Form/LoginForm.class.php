@@ -4,9 +4,8 @@ namespace Bundles\UserBundle\Form;
 use Core\Form\Form;
 use Core\Form\Validation;
 
-class UserForm extends Form
+class LoginForm extends Form
 {
-
     /*
      *
      * Connexion - formulaire & validation
@@ -45,8 +44,8 @@ class UserForm extends Form
     {
         $this->setAction('#')->setMethod('POST')->setFormId('forgotPasswordForm');
         $this->email('email', 'Saisir votre Adresse Email :');
-        $this->captcha();
-        $this->submit('Réintialiser mon MDP');
+        //$this->captcha();
+        $this->submit('Réinitialiser mon mot de passe');
 
         $this->forgotPasswordFormValidation();
         return $this;
@@ -56,7 +55,7 @@ class UserForm extends Form
     {
         $validation = new Validation( $this );
         $validation->isEmail('email');
-        $validation->isValidCaptcha( $validation::GOOGLE_CAPTCHA_NAME );
+        //$validation->isValidCaptcha( $validation::GOOGLE_CAPTCHA_NAME );
 
         $this->validation = $validation;
     }
@@ -69,12 +68,13 @@ class UserForm extends Form
 
     public function registerForm()
     {
+        $this->setAction('#')->setMethod('POST')->setFormId('registerForm');
         $this->text('nom', 'Nom :');
         $this->email('email', 'Email :');
         $this->password('password', 'Mot de passe :');
         $this->password('repeatPassword', 'Retapez votre mot de passe :');
-        $this->captcha();
-        $this->submit("Inscription");
+        //$this->captcha();
+        $this->submit("S'inscrire");
 
         $this->registerFormValidation();
         return $this;
@@ -88,41 +88,35 @@ class UserForm extends Form
         $validation->isEmail('email');
         $validation->isPassword('password');
         $validation->isPassword('repeatPassword');
-        $validation->isValidCaptcha( $validation::GOOGLE_CAPTCHA_NAME);
+        //$validation->isValidCaptcha( $validation::GOOGLE_CAPTCHA_NAME);
 
         $this->validation = $validation;
     }
 
     /*
      *
-     * Changement de mot de passe - formulaire & validation
+     * Réinitialisation du mot de passe - formulaire & validation
      *
      */
 
-    public function changePasswordForm()
-    {
-        $this->setAction('#')->setMethod('POST')->setFormId('contactForm');
-        $this->password('oldPassword', 'Ancien Mot de passe :');
-        $this->password('newPassword', 'Nouveau Mot de passe :');
-        $this->password('repeatPassword', 'Retapez votre nouveau Mot de passe :');
-        $this->submit('Modifier mon MDP');
+    public function resetPasswordForm()
+    {;
+        $this->setAction('#')->setMethod('POST')->setFormId('resetPasswordForm');
+        $this->password('newPassword', 'Votre nouveau mot de passe :');
+        $this->password('repeatPassword', 'Veuillez ressaisir votre nouveau mot de passe :');
+        $this->submit("Enregistrer le nouveau mot de passe");
 
-        $this->changePasswordFormValidation();
+        $this->resetPasswordFormValidation();
         return $this;
     }
 
-    public function changePasswordFormValidation()
+    public function resetPasswordFormValidation()
     {
         $validation = new Validation( $this );
-
-        $validation->isPassword('oldPassword');
         $validation->isPassword('newPassword');
         $validation->isPassword('repeatPassword');
 
         $this->validation = $validation;
     }
-
-
-
 
 }

@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <form method="post" action="">
     <div class="modal fade" id="modifyDatabaseConnectionModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -37,7 +38,7 @@
                     <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" style="margin-right: 10px;">Fermer</button>
                     <button class="btn btn-info btn-sm" id="triggerConnect" style="margin-right: 10px;">Se connecter à la BDD <i class="fa fa-spinner fa-spin"></i></button>
                     <button class="btn btn-warning btn-sm" id="triggerCreate" style="margin-right: 10px; display: none;">Créer la BDD <i class="fa fa-plus-circle"></i></button>
-                    <button class="btn btn-success btn-sm" id="triggerValidate" style="margin-right: 10px; display: none;">Enregister la configuration <i class="fa fa-check"></i></button>
+                    <button class="btn btn-success btn-sm" id="triggerValidate" style="margin-right: 10px; display: none;">Enregistrer la configuration <i class="fa fa-check"></i></button>
                 </div>
             </div>
         </div>
@@ -48,13 +49,13 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Liste des requetes SQL qui vont être executé pour mettre à jour la BDD</h5>
+                <h5 class="modal-title">Liste des requêtes SQL qui vont être exécuté pour mettre à jour la BDD</h5>
                 <button type="button" class="close" data-dismiss="modal">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                Listes des requetes
+                Listes des requêtes
             </div>
             <div class="modal-footer" style="justify-content: flex-end;">
                 <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" style="margin-right: 10px;">Fermer</button>
@@ -104,7 +105,7 @@
                 inputDBName:inputDBName
             };
 
-            $.get('<?= App::generateUrl('framework_admin_form_testConnection_database_route') ?>', params, function(donnees){
+            $.post('<?= App::generateUrl('framework_admin_form_testConnection_database_route') ?>', params, function(donnees){
                 if(donnees === 'success-with-database'){
                     $('#triggerConnect').hide();
                     $('#triggerValidate').show();
@@ -142,7 +143,7 @@
                 inputDBName:inputDBName
             };
 
-            $.get('<?= App::generateUrl('framework_admin_form_create_database_route') ?>', params, function(donnees){
+            $.post('<?= App::generateUrl('framework_admin_form_create_database_route') ?>', params, function(donnees){
                 if(donnees === 'created'){
 
                     showNotif('#databaseCreatedNotification');
@@ -175,7 +176,7 @@
                 inputDBName:inputDBName
             };
 
-            $.get('<?= App::generateUrl('framework_admin_form_saveConfig_database_route') ?>', params, function(donnees){
+            $.post('<?= App::generateUrl('framework_admin_form_saveConfig_database_route') ?>', params, function(donnees){
                 if(donnees === 'saved'){
 
                     showNotif('#configSavedNotification');
@@ -258,7 +259,7 @@
         </div>
         <div class="info">
             <span>Configuration sauvegardée !</span>
-            <span>Le site est mainteant liée à la base de donnée.</span>
+            <span>Le site est maintenant liée à la base de donnée.</span>
         </div>
     </div>
 

@@ -27,7 +27,7 @@ class FileManager{
                 return $urlPath . $fileName . $extension;
             }
         }
-        return App::translate('core:fileManager:noFileFound') . ' <b>' . $filePath . $fileName . '</b>';
+        return App::translate('app:noFileFound') . ' <b>' . $filePath . $fileName . '</b>';
     }
 
     public function exist($fileName, $filePath){

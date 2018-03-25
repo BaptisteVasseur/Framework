@@ -116,11 +116,11 @@ class FrameworkFormController extends Controller {
     }
 
     public function databaseTestConnectionAction(){
-        $inputUsername = Query::get('inputUsername');
-        $inputPassword = Query::get('inputPassword');
-        $inputHost = Query::get('inputHost');
-        $inputDBName = Query::get('inputDBName');
-        $inputPort = Query::get('inputPort');
+        $inputUsername = Request::get('inputUsername');
+        $inputPassword = Request::get('inputPassword');
+        $inputHost = Request::get('inputHost');
+        $inputDBName = Request::get('inputDBName');
+        $inputPort = Request::get('inputPort');
         try{
             new PDO("mysql:host=$inputHost:$inputPort;dbname=$inputDBName", $inputUsername , $inputPassword);
             echo "success-with-database";
@@ -135,11 +135,11 @@ class FrameworkFormController extends Controller {
     }
 
     public function databaseCreateDatabaseAction(){
-        $inputUsername = Query::get('inputUsername');
-        $inputPassword = Query::get('inputPassword');
-        $inputHost = Query::get('inputHost');
-        $inputDBName = Query::get('inputDBName');
-        $inputPort = Query::get('inputPort');
+        $inputUsername = Request::get('inputUsername');
+        $inputPassword = Request::get('inputPassword');
+        $inputHost = Request::get('inputHost');
+        $inputDBName = Request::get('inputDBName');
+        $inputPort = Request::get('inputPort');
 
         $pdo = new PDO("mysql:host=$inputHost:$inputPort", $inputUsername , $inputPassword);
         $pdo->query('CREATE DATABASE ' . $inputDBName);
@@ -154,11 +154,11 @@ class FrameworkFormController extends Controller {
     }
 
     public function databaseSaveConfigDatabaseAction(){
-        $inputUsername = Query::get('inputUsername');
-        $inputPassword = Query::get('inputPassword');
-        $inputHost = Query::get('inputHost');
-        $inputDBName = Query::get('inputDBName');
-        $inputPort = Query::get('inputPort');
+        $inputUsername = Request::get('inputUsername');
+        $inputPassword = Request::get('inputPassword');
+        $inputHost = Request::get('inputHost');
+        $inputDBName = Request::get('inputDBName');
+        $inputPort = Request::get('inputPort');
 
         GenerateDatabaseConfig::generate($inputUsername, $inputPassword, $inputHost.':'.$inputPort, $inputDBName);
         echo "saved";

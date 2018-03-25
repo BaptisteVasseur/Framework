@@ -1,3 +1,6 @@
+<?php
+    use Core\Session\Session;
+?>
 <html lang="fr"><head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,10 +19,10 @@
 
 <body cz-shortcut-listen="true">
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top" style="    position: relative;">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Portflio Template</a>
+            <a class="navbar-brand" href="#">Portfolio Template</a>
         </div>
     </div>
 </nav>
@@ -29,6 +32,13 @@
     <div class="starter-template">
         <h1>Template test Framework</h1>
         <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+
+        <?php
+            if( Session::hasFlashes('success') ) {
+                echo Session::getFlash('success');
+            }
+        ?>
+
         <?= $form; ?>
     </div>
 

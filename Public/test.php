@@ -1,10 +1,4 @@
 <?php
 
-
-
-
-
-
-$content = ob_get_clean();
+$content = ob_get_contents();
 require 'template.php';
-
