@@ -8,11 +8,11 @@
     <form_Google_Private_Key>6LeFoi4UAAAAAH0Ko3pXluDB8lN9H6HhmJ8SvPHW</form_Google_Private_Key>
     <form_Google_Public_Key>6LeFoi4UAAAAAICa-aYKHN2I_pbIx9LLEWiU_Axz</form_Google_Public_Key>
 
-    <Email_SenderName>baptiste-vasseur.fr</Email_SenderName>
-    <Email_SenderEmail>bvasseur77@gmail.com</Email_SenderEmail>
-    <Email_SenderHost>smtp.gmail.com</Email_SenderHost>
-    <Email_SenderPassword>fyrgrasemexahhur</Email_SenderPassword>
-    <Email_SiteName>Baptiste-Vasseur.fr</Email_SiteName>
-    <Email_Signature>L'équipe Baptiste-Vasseur.fr</Email_Signature>
+    <email_SenderName>baptiste-vasseur.fr</email_SenderName>
+    <email_SenderEmail>bvasseur77@gmail.com</email_SenderEmail>
+    <email_SenderHost>smtp.gmail.com</email_SenderHost>
+    <email_SenderPassword>fyrgrasemexahhur</email_SenderPassword>
+    <email_SiteName>Baptiste-Vasseur.fr</email_SiteName>
+    <email_Signature>L'équipe Baptiste-Vasseur.fr</email_Signature>
 
 </parameters>

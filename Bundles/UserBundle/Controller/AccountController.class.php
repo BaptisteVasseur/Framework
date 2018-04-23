@@ -37,13 +37,13 @@ Class AccountController extends Controller {
             $currentUserPassword = $currentUser->getPassword();
 
             $data = $form->getData();
-            $form->isEqual($currentUserPassword, $auth->encryptPassword($data['oldPassword']), "L'ancien mot de passe est incorrect !");
-            $form->isEqual($data['newPassword'], $data['repeatPassword'], 'Les deux mots de passe ne correspondent pas !');
+            $form->isEqual($currentUserPassword, $auth->encryptPassword($data['oldPassword']), App::translate('userBundle:error_invalidOldPassword'));
+            $form->isEqual($data['newPassword'], $data['repeatPassword'], App::translate('userBundle:error_passwordDoesntMatch'));
 
             if( $form->isValid() ){
 
                 $mail = new Email();
-                $mail->setSubject('Changement de votre mot de passe.');
+                $mail->setSubject( App::translate('userBundle:email_subject_passwordChanged') );
                 $mail->setContent( $this->render('userBundle:emails:changePassword', [
                     'nom' => $currentUser->getNom(),
                     'ip' => Server::getClientIp(),
@@ -53,7 +53,7 @@ Class AccountController extends Controller {
                 $mail->send();
 
                 $userManager->update($currentUser, ['password' => $auth->encryptPassword($data['newPassword'])]);
-                $form->success('Votre mot de passe a bien été modifié !');
+                $form->success( App::translate('userBundle:success_passwordChanged') );
 
             }else{
                 $form->error( $form->getErrors() );
@@ -78,7 +78,7 @@ Class AccountController extends Controller {
             $data = $form->getData();
             $userManager = App::getTable('userBundle:user');
             $hasUser = $userManager->has(['email' => $data['newEmail'] ]);
-            $form->databaseInteraction( !$hasUser , "<b>Erreur ! L'adresse email est déjà utilisé.</b>");
+            $form->databaseInteraction( !$hasUser , App::translate('userBundle:error_emailAlreadyInDatabase') );
 
             if( $form->isValid() ){
 

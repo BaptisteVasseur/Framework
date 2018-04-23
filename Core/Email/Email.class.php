@@ -11,20 +11,20 @@ class Email extends PHPMailer {
     {
         parent::__construct($exceptions);
 
-        $this->senderName = Config::get('App:Email_SenderName');
-        $this->senderEmail = Config::get('App:Email_SenderEmail');
+        $this->senderName = Config::get('App:email_SenderName');
+        $this->senderEmail = Config::get('App:email_SenderEmail');
 
         $this->isSMTP();
         $this->CharSet = "UTF-8";
-        $this->Host = Config::get('App:Email_SenderHost');
+        $this->Host = Config::get('App:email_SenderHost');
         $this->SMTPAuth = true;
-        $this->Username = Config::get('App:Email_SenderEmail');
-        $this->Password = Config::get('App:Email_SenderPassword');
+        $this->Username = Config::get('App:email_SenderEmail');
+        $this->Password = Config::get('App:email_SenderPassword');
         $this->SMTPSecure = 'tls';
 
         $this->isHTML(true);
 
-        $this->setFrom( Config::get('App:Email_SenderEmail'), Config::get('App:Email_SenderName'));
+        $this->setFrom( Config::get('App:email_SenderEmail'), Config::get('App:email_SenderName'));
     }
 
     public function setContent($content){

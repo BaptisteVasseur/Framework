@@ -27,3 +27,17 @@
 // Services (fonction php qui peut être accesible partout) -> include de fichier ?
 
 // log de connexion examinateur
+
+/*
+ *
+ *
+ *
+ * // Without Query String...
+$url = $request->url();
+
+// With Query String...
+$url = $request->fullUrl();
+ *
+ * $name = $request->query('name', 'Helen');
+ *
+ */

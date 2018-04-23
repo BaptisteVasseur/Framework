@@ -3,9 +3,7 @@
 
     <script>
         for (var i = 10; i >= 0; i--) {
-
             setTimeout(hello, i * 100, i);
-
             var hello = function(i){
                 $('.item-' + i).addClass('animated zoomIn opacity1').removeClass('opacity0');
             }

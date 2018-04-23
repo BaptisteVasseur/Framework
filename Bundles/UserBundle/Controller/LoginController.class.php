@@ -24,7 +24,7 @@ Class LoginController extends Controller {
             if( $form->isValid() ){
                 $data = $form->getData();
                 if( ! $auth->login($data['email'], $data['password'], $data['remember'] ) ){
-                    $auth->logout(); $form->error( $auth->getError() );
+                    $auth->logout(); $form->error( App::translate('userBundle:error_invalidEmailOrPassword') );
                 }
             }else{  $form->error( $form->getErrors() ); }
         }
@@ -63,8 +63,8 @@ Class LoginController extends Controller {
             $nom = $data['nom'];
 
             $hasUserWithThisEmail = $userManager->has(['email' => $email]);
-            $form->isEqual($newPassword, $repeatPassword, '<b>Les deux mots de passe ne correspondent pas !</b>');
-            $form->databaseInteraction(!$hasUserWithThisEmail, '<b>Un utilisateur avec cette adresse email existe déjà !</b>');
+            $form->isEqual($newPassword, $repeatPassword, App::translate("userBundle:error_passwordDoesntMatch"));
+            $form->databaseInteraction(!$hasUserWithThisEmail, App::translate("userBundle:error_emailAlreadyInDatabase"));
 
             if ($form->isValid()) {
                 $user = new UserEntity();
@@ -90,15 +90,15 @@ Class LoginController extends Controller {
                             'password' => $plainPassword,
                             'lien' => $lien
                         ], true) );
-                        $mail->setSubject("Vérification de votre compte.");
+                        $mail->setSubject( App::translate('userBundle:email_subject_verification') );
                         $mail->send();
 
                         $createdUser->setValidationDate("0000-00-00 00:00:00");
                         $userManager->save();
-                       Session::success("<b>Une email contenant un lien pour vérifier votre compte vous à été envoyé.</b>");
+                       Session::success( App::translate('userBundle:success_verificationEmailSend') );
                        App::redirectToRoute('login');
                     }catch (Exception $e){
-                        $form->error("Échec de l'inscription. <b>" . $mail->ErrorInfo . "</b>");
+                        $form->error( App::translate('userBundle:error_registrationFailed', [$mail->ErrorInfo]) );
                     }
                 }else{
                     try {
@@ -107,15 +107,15 @@ Class LoginController extends Controller {
                             'email' => $email,
                             'password' => $plainPassword
                         ], true) );
-                        $mail->setSubject("Bienvenue sur " . Config::get('app:Email_SiteName'));
+                        $mail->setSubject( App::translate('userBundle:email_subject_welcome', [ Config::get('app:email_SiteName') ]));
                         $mail->send();
 
                         $createdUser->setValidationDate( date("Y-m-d H:i:s") );
                         $userManager->save();
-                       Session::success('<b>Votre compte a bien été créer. Vous pouvez dés maintenant vous connecter à votre compte.</b>');
+                       Session::success( App::translate('userBundle:success_registerSucceed') );
                        App::redirectToRoute('login');
                     }catch (Exception $e){
-                        $form->error("Échec de l'inscription ! Veuillez réessayer plus tard.");
+                        $form->error(App::translate('userBundle:error_registrationFailed', [$mail->ErrorInfo]));
                     }
                 }
             } else {
@@ -150,16 +150,16 @@ Class LoginController extends Controller {
                 $userManager->save();
 
                 if ( $userManager->has(['id' => $userId, 'validationDate' => $validationDate]) ) {
-                    Session::success('Votre compte à bien été confirmé. Vous pouvez maintenant vous connecter avec vos identifiants de connexion.');
+                    Session::success( App::translate('userBundle:success_accountConfirmed') );
                     App::redirectToRoute('login');
                 } else {
-                    App::forbidden('Un bug est survenu lors de la confirmation de votre compte ! Réessayer plus tard !');
+                    App::forbidden( App::translate('userBundle:error_confirmationFailed') );
                 }
             }else{
-                App::forbidden('La clé de validation de votre compte est incorrect !');
+                App::forbidden( App::translate('userBundle:error_invalidToken') );
             }
         }else{
-            App::forbidden('Votre compte à déjà été validé !');
+            App::forbidden( App::translate('userBundle:error_accountAlreadyConfirmed') );
         }
     }
 
@@ -183,7 +183,7 @@ Class LoginController extends Controller {
             $emailData = $datas['email'];
 
             $hasUserWithThisEmail = $userManager->has(['email' => $emailData]);
-            $form->databaseInteraction( $hasUserWithThisEmail , '<b>Aucun compte avec cette adresse email n\'à été trouvé !</b>' );
+            $form->databaseInteraction( $hasUserWithThisEmail ,  App::translate('userBundle:error_noEmailFound')  );
 
             if( $form->isValid() ){
                 $user = $userManager->findByEmail($emailData);
@@ -195,16 +195,16 @@ Class LoginController extends Controller {
                     try {
                         $mail->addAddress($datas['email']);
                         $mail->setContent($emailContent);
-                        $mail->setSubject("Réinitialisation de votre mot de passe.");
+                        $mail->setSubject( App::translate('userBundle:email_subject_forgotPassword') );
                         $mail->send();
 
                         $user->setPlainPassword($generatedPassword);
                         $userManager->save();
 
-                        Session::success('<b>Un email contenant un code provisoire vous a été envoyé !</b>');
+                        Session::success( App::translate('userBundle:success_newPasswordSend') );
                         App::redirectToRoute('login');
                     }catch (Exception $e){
-                        $form->error( "L'email n'à pas pu être envoyé ! <b>" . $mail->ErrorInfo . "</b>");
+                        $form->error( App::translate('userBundle:error_emailSendingFailed', [$mail->ErrorInfo]) );
                     }
                 }else{
                     list($token, $userId) = explode('-/-\-', $auth->generateAuthToken($user));
@@ -214,13 +214,13 @@ Class LoginController extends Controller {
                     try {
                         $mail->addAddress($datas['email']);
                         $mail->setContent($emailContent);
-                        $mail->setSubject("Réinitialisation de votre mot de passe.");
+                        $mail->setSubject( App::translate('userBundle:email_subject_forgotPassword') );
                         $mail->send();
 
-                        Session::success('<b>Un email contenant un lien pour réinitialiser votre mot de passe vous a été envoyé !</b>');
+                        Session::success( App::translate('userBundle:success_resetLinkSend') );
                         App::redirectToRoute('login');
                     }catch (Exception $e){
-                        $form->error( "L'email n'à pas pu être envoyé ! <b>" . $mail->ErrorInfo . "</b>");
+                        $form->error(  App::translate('userBundle:error_emailSendingFailed', [$mail->ErrorInfo]) );
                     }
                 }
             }else{ $form->error( $form->getErrors() ); }
@@ -247,14 +247,14 @@ Class LoginController extends Controller {
         if($token == $params['token']){
             if( $this->request->is('post') ){
                 $data = $form->getData();
-                $form->isEqual($data['newPassword'], $data['repeatPassword'], "Les deux mots de passe ne correspondent pas !");
+                $form->isEqual($data['newPassword'], $data['repeatPassword'],  App::translate('userBundle:error_passwordDoesntMatch') );
 
                 if( $form->isValid() ){
                     $user->setPlainPassword($data['newPassword']);
                     $userManager->save();
 
                     $mail = new Email();
-                    $mail->setSubject('Changement de votre mot de passe.');
+                    $mail->setSubject( App::translate('userBundle:email_subject_passwordChanged') );
                     $mail->setContent( $this->render('userBundle:emails:changePassword', [
                         'nom' => $user->getNom(),
                         'ip' => Server::getClientIp(),
@@ -263,7 +263,7 @@ Class LoginController extends Controller {
                     $mail->addAddress($user->getEmail());
                     $mail->send();
 
-                    Session::success("<b>Votre mot de passe à bien été modifié. Veuillez maintenant vous connecter.</b>");
+                    Session::success( App::translate('userBundle:success_passwordReset') );
                     App::redirectToRoute('login');
 
                 }else{
@@ -271,7 +271,7 @@ Class LoginController extends Controller {
                 }
             }
         }else{
-            App::forbidden("Erreur ! La clé de réinitialisation de votre mot de passe est incorrect.");
+            App::forbidden( App::translate('userBundle:error_invalidResetToken') );
         }
 
         return $this->render( Config::get('userBundle:template_reset') , [

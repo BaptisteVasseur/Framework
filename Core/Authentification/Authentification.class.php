@@ -58,7 +58,6 @@ class Authentification extends Singleton {
                 return true;
             }
         }
-        $this->loginError = '<b>Please check your email or password!</b>';
         return false;
     }
 

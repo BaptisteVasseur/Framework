@@ -1,5 +1,30 @@
 <translations>
 
+    <email_subject_verification>Vérification de votre compte.</email_subject_verification>
+    <email_subject_welcome>Bienvenue sur %s</email_subject_welcome>
+    <email_subject_forgotPassword>Réinitialisation de votre mot de passe.</email_subject_forgotPassword>
+    <email_subject_passwordChanged>Changement de votre mot de passe.</email_subject_passwordChanged>
 
+    <success_verificationEmailSend>Une email contenant un lien pour vérifier votre compte vous à été envoyé.</success_verificationEmailSend>
+    <success_registerSucceed>Votre compte a bien été créer. Vous pouvez dés maintenant vous connecter à votre compte.</success_registerSucceed>
+    <success_accountConfirmed>Votre compte à bien été confirmé. Vous pouvez maintenant vous connecter avec vos identifiants de connexion.</success_accountConfirmed>
+    <success_newPasswordSend>Un email contenant un code provisoire vous a été envoyé !</success_newPasswordSend>
+    <success_resetLinkSend>Un email contenant un lien pour réinitialiser votre mot de passe vous a été envoyé !</success_resetLinkSend>
+    <success_passwordReset>Votre mot de passe à bien été modifié. Veuillez maintenant vous connecter.</success_passwordReset>
+    <success_passwordChanged>Votre mot de passe à bien été modifié.</success_passwordChanged>
+
+    <error_invalidEmailOrPassword>Adresse Email ou mot de passe incorrect !</error_invalidEmailOrPassword>
+    <error_passwordDoesntMatch>Les deux mots de passe ne correspondent pas !</error_passwordDoesntMatch>
+    <error_invalidOldPassword>L'ancien mot de passe est incorrect !</error_invalidOldPassword>
+    <error_noEmailFound>Aucun compte avec cette adresse email n'à été trouvé !</error_noEmailFound>
+    <error_emailAlreadyInDatabase>Un utilisateur avec cette adresse email existe déjà !</error_emailAlreadyInDatabase>
+    <error_accountAlreadyConfirmed>Votre compte à déjà été validé !</error_accountAlreadyConfirmed>
+
+    <error_registrationFailed>Échec de l'inscription ! Veuillez réessayer plus tard. %s</error_registrationFailed>
+    <error_confirmationFailed>Un bug est survenu lors de la confirmation de votre compte ! Réessayer plus tard !</error_confirmationFailed>
+    <error_emailSendingFailed>L'email n'à pas pu être envoyé !</error_emailSendingFailed>
+
+    <error_invalidToken>La clé de validation de votre compte est incorrect !</error_invalidToken>
+    <error_invalidResetToken>Erreur ! La clé de réinitialisation de votre mot de passe est incorrect.</error_invalidResetToken>
 
 </translations>
