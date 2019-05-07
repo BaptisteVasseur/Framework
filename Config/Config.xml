@@ -9,9 +9,9 @@
     <form_Google_Public_Key>6LeFoi4UAAAAAICa-aYKHN2I_pbIx9LLEWiU_Axz</form_Google_Public_Key>
 
     <email_SenderName>baptiste-vasseur.fr</email_SenderName>
-    <email_SenderEmail>bvasseur77@gmail.com</email_SenderEmail>
+    <email_SenderEmail>YOUR_EMAIL</email_SenderEmail>
     <email_SenderHost>smtp.gmail.com</email_SenderHost>
-    <email_SenderPassword>fyrgrasemexahhur</email_SenderPassword>
+    <email_SenderPassword>YOUR_PASSWORD</email_SenderPassword>
     <email_SiteName>Baptiste-Vasseur.fr</email_SiteName>
     <email_Signature>L'équipe Baptiste-Vasseur.fr</email_Signature>
 
